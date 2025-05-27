@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Lightbulb, Fan, Monitor, Radio, Thermometer, Lock, Camera, Speaker } from 'lucide-react';
+import { Lightbulb, Fan, Monitor, Radio, Thermometer, Lock, Camera, Speaker, User, Home as HomeIcon } from 'lucide-react';
 
 interface DeviceType {
   id: string;
@@ -66,10 +66,31 @@ const deviceTypes: DeviceType[] = [
     icon: <Speaker className="w-5 h-5" />, 
     category: 'Media', 
     description: 'Smart speaker'
+  },
+  { 
+    id: 'person', 
+    name: 'Person', 
+    icon: <User className="w-5 h-5" />, 
+    category: 'Presence', 
+    description: 'Person presence tracker'
+  },
+  { 
+    id: 'media', 
+    name: 'Media Player', 
+    icon: <Monitor className="w-5 h-5" />, 
+    category: 'Media', 
+    description: 'Media player card'
+  },
+  { 
+    id: 'automation', 
+    name: 'Automation', 
+    icon: <HomeIcon className="w-5 h-5" />, 
+    category: 'Controls', 
+    description: 'Automation or scene'
   }
 ];
 
-const categories = ['Lighting', 'Climate', 'Controls', 'Sensors', 'Security', 'Media'];
+const categories = ['Lighting', 'Climate', 'Controls', 'Sensors', 'Security', 'Media', 'Presence'];
 
 interface DeviceLibraryProps {
   onDragStart: (device: DeviceType) => void;
@@ -80,7 +101,7 @@ const DeviceLibrary = ({ onDragStart, draggedDevice }: DeviceLibraryProps) => {
   return (
     <div className="p-4">
       <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-        Entities
+        Card Types
       </h2>
       
       {categories.map(category => {
