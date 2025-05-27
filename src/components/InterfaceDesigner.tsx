@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Plus, Home, Settings, Monitor } from 'lucide-react';
+import { Plus, Home, Settings, Monitor, Grid3X3 } from 'lucide-react';
 import RoomCanvas from './RoomCanvas';
 import DeviceLibrary from './DeviceLibrary';
 import ProjectHeader from './ProjectHeader';
@@ -26,6 +26,7 @@ const InterfaceDesigner = () => {
   ]);
   const [activeRoomId, setActiveRoomId] = useState('room-1');
   const [draggedDevice, setDraggedDevice] = useState<any>(null);
+  const [isEditMode, setIsEditMode] = useState(true);
 
   const addRoom = () => {
     const newRoom: Room = {
@@ -57,66 +58,97 @@ const InterfaceDesigner = () => {
   const activeRoom = rooms.find(room => room.id === activeRoomId) || rooms[0];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-      <div className="container mx-auto px-4 py-6">
-        <ProjectHeader />
-        
-        <div className="grid grid-cols-12 gap-6 mt-6">
-          {/* Device Library Sidebar */}
-          <div className="col-span-3">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="flex h-screen">
+        {/* Sidebar */}
+        <div className="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+          {/* Header */}
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
+              Dashboard Editor
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              Design your smart home interface
+            </p>
+          </div>
+
+          {/* Mode Toggle */}
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsEditMode(!isEditMode)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  isEditMode
+                    ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'
+                    : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300'
+                }`}
+              >
+                <Grid3X3 className="w-4 h-4" />
+                {isEditMode ? 'Exit Edit Mode' : 'Enter Edit Mode'}
+              </button>
+            </div>
+          </div>
+
+          {/* Device Library */}
+          <div className="flex-1 overflow-y-auto">
             <DeviceLibrary 
               onDragStart={setDraggedDevice}
               draggedDevice={draggedDevice}
             />
           </div>
+        </div>
 
-          {/* Main Canvas Area */}
-          <div className="col-span-9">
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700">
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col">
+          {/* Top Bar */}
+          <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4">
+            <div className="flex items-center justify-between">
               {/* Room Tabs */}
-              <div className="flex items-center justify-between p-4 border-b border-slate-700">
-                <div className="flex gap-2">
-                  {rooms.map(room => (
-                    <button
-                      key={room.id}
-                      onClick={() => setActiveRoomId(room.id)}
-                      className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${
-                        activeRoomId === room.id
-                          ? 'bg-blue-600 text-white shadow-lg'
-                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                      }`}
-                    >
-                      <Home className="w-4 h-4" />
-                      {room.name}
-                    </button>
-                  ))}
+              <div className="flex items-center gap-2">
+                {rooms.map(room => (
                   <button
-                    onClick={addRoom}
-                    className="px-4 py-2 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all duration-200 flex items-center gap-2"
+                    key={room.id}
+                    onClick={() => setActiveRoomId(room.id)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                      activeRoomId === room.id
+                        ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                    }`}
                   >
-                    <Plus className="w-4 h-4" />
-                    Add Room
+                    <Home className="w-4 h-4" />
+                    {room.name}
                   </button>
-                </div>
-
-                <div className="flex gap-2">
-                  <button className="p-2 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all duration-200">
-                    <Settings className="w-4 h-4" />
-                  </button>
-                  <button className="p-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition-all duration-200">
-                    <Monitor className="w-4 h-4" />
-                  </button>
-                </div>
+                ))}
+                <button
+                  onClick={addRoom}
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add View
+                </button>
               </div>
 
-              {/* Canvas */}
-              <RoomCanvas
-                room={activeRoom}
-                draggedDevice={draggedDevice}
-                onDeviceDrop={addDeviceToRoom}
-                onDragEnd={() => setDraggedDevice(null)}
-              />
+              {/* Actions */}
+              <div className="flex items-center gap-2">
+                <button className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                  <Settings className="w-4 h-4" />
+                </button>
+                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                  Save
+                </button>
+              </div>
             </div>
+          </div>
+
+          {/* Canvas */}
+          <div className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
+            <RoomCanvas
+              room={activeRoom}
+              draggedDevice={draggedDevice}
+              onDeviceDrop={addDeviceToRoom}
+              onDragEnd={() => setDraggedDevice(null)}
+              isEditMode={isEditMode}
+            />
           </div>
         </div>
       </div>
