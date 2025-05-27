@@ -100,7 +100,7 @@ interface DeviceLibraryProps {
 const DeviceLibrary = ({ onDragStart, draggedDevice }: DeviceLibraryProps) => {
   return (
     <div className="p-4">
-      <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <h2 className="text-lg font-semibold text-white mb-4">
         Card Types
       </h2>
       
@@ -111,7 +111,7 @@ const DeviceLibrary = ({ onDragStart, draggedDevice }: DeviceLibraryProps) => {
         
         return (
           <div key={category} className="mb-6">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-wider">
+            <h3 className="text-sm font-medium text-gray-400 mb-3 uppercase tracking-wider">
               {category}
             </h3>
             <div className="space-y-2">
@@ -120,19 +120,19 @@ const DeviceLibrary = ({ onDragStart, draggedDevice }: DeviceLibraryProps) => {
                   key={device.id}
                   draggable
                   onDragStart={() => onDragStart(device)}
-                  className={`group p-3 rounded-lg border border-gray-200 dark:border-gray-600 cursor-grab active:cursor-grabbing transition-all duration-200 hover:border-blue-300 hover:shadow-sm bg-white dark:bg-gray-700 ${
+                  className={`group p-3 rounded-xl border border-gray-700/50 cursor-grab active:cursor-grabbing transition-all duration-200 hover:border-blue-400/50 hover:shadow-lg hover:shadow-blue-500/10 bg-gray-800/40 backdrop-blur-md ${
                     draggedDevice?.id === device.id ? 'opacity-50' : ''
                   }`}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="p-2 rounded-lg bg-gray-50 dark:bg-gray-600 text-gray-600 dark:text-gray-300 group-hover:bg-blue-50 group-hover:text-blue-600 dark:group-hover:bg-blue-900/20 dark:group-hover:text-blue-400 transition-colors">
+                    <div className="p-2 rounded-lg bg-gray-700/50 backdrop-blur-sm text-gray-300 group-hover:bg-blue-500/20 group-hover:text-blue-400 transition-all duration-200 border border-gray-600/30">
                       {device.icon}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-gray-900 dark:text-white">
+                      <div className="text-sm font-medium text-white">
                         {device.name}
                       </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <div className="text-xs text-gray-400 mt-1">
                         {device.description}
                       </div>
                     </div>
