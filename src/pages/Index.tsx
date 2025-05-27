@@ -1,9 +1,9 @@
 
 import React from 'react';
-import InterfaceDesigner from '@/components/InterfaceDesigner';
+import HomeAssistantDashboard from '@/components/HomeAssistantDashboard';
 
 const Index = () => {
-  return <InterfaceDesigner />;
+  return <HomeAssistantDashboard />;
 };
 
 export default Index;
